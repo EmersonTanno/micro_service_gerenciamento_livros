@@ -67,7 +67,7 @@ export class BooksService {
         throw new NotFoundException(`Book with id ${id} not found`);
       }
 
-      const updatedBook = await this.bookModel.findByIdAndUpdate(id, updateBookDto, {new: true});
+      return await this.bookModel.findByIdAndUpdate(id, updateBookDto, {new: true});
     }catch(e)
     {
       if(e instanceof(NotFoundException)){
