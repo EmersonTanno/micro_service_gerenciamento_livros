@@ -46,6 +46,8 @@ export class BooksService {
       if(!findedBook){
         throw new NotFoundException(`Book with id: ${id} not found`);
       }
+
+      return findedBook;
     }catch(e)
     {
       if(e instanceof(NotFoundException)){
