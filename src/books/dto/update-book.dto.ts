@@ -5,16 +5,16 @@ import { IsIn, IsOptional, IsString } from 'class-validator';
 export class UpdateBookDto extends PartialType(CreateBookDto) {
     @IsString()
     @IsOptional()
-    title: string;
+    title?: string;
 
     @IsString()
     @IsOptional()
-    author: string;
+    author?: string;
 
     @IsString()
     @IsOptional()
     @IsIn(['disponível', 'reservado'], {
         message: 'Status deve ser "disponível" ou "reservado"',
     })
-    status: string;
+    status?: string;
 }
