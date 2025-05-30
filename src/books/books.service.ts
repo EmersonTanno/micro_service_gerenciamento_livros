@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Book } from './entities/book.entity';
+import { Book, BookDocument } from './entities/book.entity';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class BooksService {
 
   constructor(
     @InjectModel(Book.name)
-    private bookModel: Model<Book>
+    private bookModel: Model<BookDocument>
   ){}
 
   async create(createBookDto: CreateBookDto) {
