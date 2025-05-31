@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateBookDto } from './create-book.dto';
-import { IsIn, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsIn, IsOptional, IsString } from 'class-validator';
+import { BookStatus } from '../enum/bookStatus.enum';
 
 export class UpdateBookDto extends PartialType(CreateBookDto) {
     @IsString()
@@ -10,11 +11,8 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
     @IsString()
     @IsOptional()
     author?: string;
-
-    @IsString()
+    
+    @IsEnum(BookStatus)
     @IsOptional()
-    @IsIn(['disponível', 'reservado'], {
-        message: 'Status deve ser "disponível" ou "reservado"',
-    })
-    status?: string;
+    status?: BookStatus;
 }
