@@ -4,6 +4,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Book, BookDocument } from './entities/book.entity';
 import { Model } from 'mongoose';
+import { BookStatus } from './enum/bookStatus.enum';
 
 @Injectable()
 export class BooksService {
@@ -15,7 +16,9 @@ export class BooksService {
 
   async create(createBookDto: CreateBookDto) {
     try {
-      const book = new this.bookModel(createBookDto);
+      let book = new this.bookModel(createBookDto);
+
+      book.status = BookStatus.DISPONIVEL;
 
       return await book.save();
     } catch(e)
@@ -82,22 +85,22 @@ export class BooksService {
       const findedBook = await this.bookModel.findById(id);
 
       if(!findedBook){
-        throw new NotFoundException(`Book with title: ${name} not found`);
+        throw new NotFoundException(`Book with id: ${id} not found`);
       }
       
-      var newStatus : string;
+      var newStatus : BookStatus;
 
-      if(findedBook.status == "disponível"){
-        newStatus = "reservado";
+      if(findedBook.status == BookStatus.DISPONIVEL){
+        newStatus = BookStatus.RESERVADO;
       } else {
-        newStatus = "disponível";
+        newStatus = BookStatus.DISPONIVEL;
       }
 
-      const updatedBook: UpdateBookDto = {
-        status: newStatus,
-      };
-
-      return await this.bookModel.findByIdAndUpdate(id, updatedBook, {new: true});
+      return await this.bookModel.findByIdAndUpdate(
+        id,
+        { $set: { status: newStatus } },
+        { new: true },
+      );
 
     }catch(e)
     {
