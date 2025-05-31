@@ -77,9 +77,9 @@ export class BooksService {
     }
   }
 
-  async updateStatusByName(name: string) {
+  async updateStatus(id: string) {
     try{
-      const findedBook = await this.bookModel.findOne({title : name});
+      const findedBook = await this.bookModel.findById(id);
 
       if(!findedBook){
         throw new NotFoundException(`Book with title: ${name} not found`);
@@ -97,7 +97,7 @@ export class BooksService {
         status: newStatus,
       };
 
-      return await this.bookModel.findOneAndUpdate({title: name}, updatedBook, {new: true});
+      return await this.bookModel.findByIdAndUpdate(id, updatedBook, {new: true});
 
     }catch(e)
     {

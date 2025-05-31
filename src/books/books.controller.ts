@@ -28,9 +28,9 @@ export class BooksController {
     return this.booksService.update(id, updateBookDto);
   }
 
-  @Patch(':title/status')
-  reserveBook(@Param('title') title: string) {
-    return this.booksService.updateStatusByName(title);
+  @Patch(':id/status')
+  updateStatus(@Param('id') id: string) {
+    return this.booksService.updateStatus(id);
   }
 
 }
