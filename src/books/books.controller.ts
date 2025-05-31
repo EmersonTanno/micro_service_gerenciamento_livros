@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { title } from 'process';
 
 @Controller('books')
 export class BooksController {
@@ -27,12 +28,9 @@ export class BooksController {
     return this.booksService.update(id, updateBookDto);
   }
 
-  @Patch(':id/status')
-  reserveBook(@Param('id') id: string) {
-    const updateBookDto: UpdateBookDto = {
-      status: 'reservado',
-    };
-    return this.booksService.update(id, updateBookDto);
+  @Patch(':title/status')
+  reserveBook(@Param('title') title: string) {
+    return this.booksService.updateStatusByName(title);
   }
 
 }
