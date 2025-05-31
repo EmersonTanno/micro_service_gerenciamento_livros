@@ -1,4 +1,5 @@
-import { IsIn, IsNotEmpty, IsString } from "class-validator";
+import { IsEnum, IsIn, IsNotEmpty, IsString } from "class-validator";
+import { BookStatus } from "../enum/bookStatus.enum";
 
 export class CreateBookDto {
 
@@ -9,12 +10,4 @@ export class CreateBookDto {
     @IsString()
     @IsNotEmpty()
     author: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @IsIn(['disponível', 'reservado'], {
-        message: 'Status deve ser "disponível" ou "reservado"',
-    })
-    status: string;
-
 }
