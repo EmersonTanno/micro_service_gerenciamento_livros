@@ -76,4 +76,35 @@ export class BooksService {
       throw new BadRequestException(e.message);
     }
   }
+
+  async updateStatusByName(name: string) {
+    try{
+      const findedBook = await this.bookModel.findOne({title : name});
+
+      if(!findedBook){
+        throw new NotFoundException(`Book with title: ${name} not found`);
+      }
+      
+      var newStatus : string;
+
+      if(findedBook.status == "disponível"){
+        newStatus = "reservado";
+      } else {
+        newStatus = "disponível";
+      }
+
+      const updatedBook: UpdateBookDto = {
+        status: newStatus,
+      };
+
+      return await this.bookModel.findOneAndUpdate({title: name}, updatedBook, {new: true});
+
+    }catch(e)
+    {
+      if(e instanceof(NotFoundException)){
+        throw e;
+      }
+      throw new BadRequestException(e.message);
+    }
+  }
 }
